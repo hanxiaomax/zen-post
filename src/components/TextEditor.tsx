@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Box,
   MenuItem,
@@ -23,22 +23,6 @@ import ColorLensIcon from "@mui/icons-material/ColorLens";
 import FormatColorTextIcon from "@mui/icons-material/FormatColorText";
 import { SketchPicker } from "react-color";
 
-// Function to check if a font is available
-const isFontAvailable = (font: string) => {
-  const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
-  if (!context) {
-    return false;
-  }
-  context.font = "72px monospace";
-  const baselineSize = context.measureText("A").width;
-
-  context.font = `72px ${font}, monospace`;
-  const newSize = context.measureText("A").width;
-
-  return newSize !== baselineSize;
-};
-
 const chineseFonts = [
   "宋体",
   "黑体",
@@ -50,10 +34,6 @@ const chineseFonts = [
   "方正舒体",
   "华文行楷",
 ];
-
-const getAvailableFonts = () => {
-  return chineseFonts.filter(isFontAvailable);
-};
 
 interface TextEditorProps {
   text: string;
@@ -96,11 +76,6 @@ const TextEditor: React.FC<TextEditorProps> = ({
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
   const [isFontSizeDialogOpen, setIsFontSizeDialogOpen] = useState(false);
   const [isFontFamilyDialogOpen, setIsFontFamilyDialogOpen] = useState(false);
-  const [availableFonts, setAvailableFonts] = useState<string[]>([]);
-
-  useEffect(() => {
-    setAvailableFonts(getAvailableFonts());
-  }, []);
 
   const handleFontFamilyClick = () => {
     setIsFontFamilyDialogOpen(true);
@@ -194,7 +169,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
               onChange={handleFontFamilyChange}
               sx={{ minWidth: 200 }}
             >
-              {availableFonts.map((family) => (
+              {chineseFonts.map((family) => (
                 <MenuItem key={family} value={family}>
                   {family}
                 </MenuItem>
@@ -214,10 +189,10 @@ const TextEditor: React.FC<TextEditorProps> = ({
       >
         <DialogTitle>选择字号</DialogTitle>
         <DialogContent>
-          {["小", "中", "大", "特大"].map((size, index) => (
+          {[18, 22, 32, 38].map((size) => (
             <Button
               key={size}
-              onClick={() => handleFontSizeChange((index + 1) * 4)}
+              onClick={() => handleFontSizeChange(size)}
               sx={{ minWidth: 200 }}
             >
               {size}

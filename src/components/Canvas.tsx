@@ -5,7 +5,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 interface CanvasProps {
   image: string | null;
   text: string;
-  onImageUpload: (file: File) => void;
+  onImageUpload: (dataUrl: string) => void;
   footerColor: string;
   textColor: string;
   bold: boolean;
@@ -36,7 +36,13 @@ const Canvas: React.FC<CanvasProps> = ({
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      onImageUpload(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (reader.result) {
+          onImageUpload(reader.result as string);
+        }
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -55,7 +61,7 @@ const Canvas: React.FC<CanvasProps> = ({
         alignItems: "center",
         backgroundColor: "#fff",
         overflow: "hidden",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
         cursor: "pointer",
       }}
       onClick={handleCanvasClick}
@@ -81,6 +87,7 @@ const Canvas: React.FC<CanvasProps> = ({
       >
         {image ? (
           <Box
+            id="post"
             sx={{
               position: "relative",
               width: "100%",
@@ -103,7 +110,10 @@ const Canvas: React.FC<CanvasProps> = ({
             <Box
               sx={{
                 width: "100%",
-                backgroundColor: footerColor,
+                backgroundColor: text
+                  ? footerColor
+                  : "rgba(255, 255, 255, 0.3)",
+                backdropFilter: text ? "blur(12px)" : "blur(10px)",
                 padding: "10px",
                 display: "flex",
                 alignItems: "center",
@@ -113,25 +123,26 @@ const Canvas: React.FC<CanvasProps> = ({
               }}
             >
               <Typography
-                variant="body2"
+                variant="h6"
                 color={text ? textColor : "grey.700"}
-                sx={{
+                style={{
                   whiteSpace: "pre-wrap",
                   wordWrap: "break-word",
+                  fontFamily: fontFamily,
                   fontSize: `${fontSize}px`,
                   fontWeight: bold ? "bold" : "normal",
                   fontStyle: italic ? "italic" : "normal",
-                  fontFamily: fontFamily,
+                  padding: "5px 10px",
                 }}
               >
-                {text || "Click to add text"}
+                {text || "请输入文字"}
               </Typography>
             </Box>
           </Box>
         ) : (
           <Box sx={{ textAlign: "center" }}>
-            <AddPhotoAlternateIcon sx={{ fontSize: 48, color: "grey.500" }} />
-            <Typography sx={{ fontSize: 48, color: "grey.500" }}>
+            <AddPhotoAlternateIcon sx={{ fontSize: 32, color: "grey.500" }} />
+            <Typography sx={{ fontSize: 32, color: "grey.500" }}>
               点击上传图片
             </Typography>
           </Box>

@@ -10,7 +10,7 @@ const App: React.FC = () => {
   const [image, setImage] = useState<string | null>(null);
   const [text, setText] = useState("");
   const [footerBgColor, setFooterBgColor] = useState<string>(
-    "rgba(255,255,255, 0.7)"
+    "rgba(255, 255, 255, 0.3)"
   );
   const [textColor, setTextColor] = useState<string>("#000000");
   const [bold, setBold] = useState(false);
@@ -18,12 +18,8 @@ const App: React.FC = () => {
   const [fontSize, setFontSize] = useState(16); // 设置默认字体大小为中号
   const [fontFamily, setFontFamily] = useState("宋体");
 
-  const handleImageUpload = (file: File) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImage(reader.result as string);
-    };
-    reader.readAsDataURL(file);
+  const handleImageUpload = (dataUrl: string) => {
+    setImage(dataUrl);
   };
 
   const handleTextChange = (text: string) => {
@@ -31,9 +27,9 @@ const App: React.FC = () => {
   };
 
   const handleDownload = () => {
-    if (document.getElementById("canvas")) {
+    if (document.getElementById("post")) {
       htmlToImage
-        .toBlob(document.getElementById("canvas") as HTMLElement)
+        .toBlob(document.getElementById("post") as HTMLElement)
         .then((blob) => {
           if (blob) {
             saveAs(blob, "poster.png");
