@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/zen-post/static/css/main.e6c13ad2.css",
-    "main.js": "/zen-post/static/js/main.7de951b3.js",
+    "main.js": "/zen-post/static/js/main.1018e4fd.js",
     "static/js/453.b866fd66.chunk.js": "/zen-post/static/js/453.b866fd66.chunk.js",
     "index.html": "/zen-post/index.html",
     "main.e6c13ad2.css.map": "/zen-post/static/css/main.e6c13ad2.css.map",
-    "main.7de951b3.js.map": "/zen-post/static/js/main.7de951b3.js.map",
+    "main.1018e4fd.js.map": "/zen-post/static/js/main.1018e4fd.js.map",
     "453.b866fd66.chunk.js.map": "/zen-post/static/js/453.b866fd66.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.7de951b3.js"
+    "static/js/main.1018e4fd.js"
   ]
 }
